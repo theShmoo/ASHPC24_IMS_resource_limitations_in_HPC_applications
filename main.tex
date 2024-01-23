@@ -1,0 +1,87 @@
+\documentclass[a4paper, 11pt]{article}
+
+\oddsidemargin=-1cm
+\topmargin=-1.5cm
+\textwidth=18cm
+\textheight=22cm
+
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\lhead{\footnotesize\sc ASHPC24 -- Austrian-Slovenian HPC Meeting 2024}
+\chead{}
+\rhead{\footnotesize\sc Grundlsee, June 10 -- June 13, 2024} 
+
+\usepackage{enumitem}
+\newlist{reflist}{enumerate}{1}
+\setlist[reflist,1]{label={[\arabic*]},topsep=0pt,leftmargin=6mm,itemindent=0mm,labelsep=2mm}
+
+\newcommand{\affiliation}[1]{\small{\emph{#1}}}
+
+\renewcommand{\thesection}{}
+\renewcommand{\thesubsection}{}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+
+\makeatletter
+\renewcommand\section{\@startsection {section}{1}{\z@}%
+  {-3.5ex \@plus -1ex \@minus -.2ex}%
+  {2.3ex \@plus.2ex}%
+  {\centering\normalfont\Large\bfseries}}
+\makeatother
+
+\makeatletter
+\renewcommand\subsection{\@startsection {subsection}{1}{\z@}%
+  {-3.5ex \@plus -1ex \@minus -.2ex}%
+  {2.3ex \@plus.2ex}%
+  {\centering\normalfont\large\bfseries}}
+\makeatother
+
+\begin{document}
+
+\section{Live resource management in HPC applications:\\ Resilient hybrid computing in IMS' MBMW processing pipeline}
+\subsection{David Pfahler, Harald Höller-Lugmayr}
+
+\begin{center}
+\setlength{\parskip}{0pt}
+\affiliation{IMS Nanofabrication GmbH, Brunn am Gebirge, Austria}
+\setlength{\parskip}{7pt}
+\end{center}
+
+% Abstract
+% ========
+We address the intricate challenge of managing resource limitations and hardware utilization 
+within the Multi-Beam Mask Writer (MBMW) processing pipeline~[1].
+Our primary objective is to enhance stability and availability by dynamically adapting to varying computational demands during the real-time processing for mask writing with high bandwidth on an HPC cluster.
+It's crucial to note the inherent variability of parameters and input data and computational demand on the hardware components. In combination with an industry in constant pursuit of higher complexity~[2], upfront knowledge of expected resource amounts is very challenging. This uncertainty emphasizes the significance of our adaptive resource management approach in addressing the dynamic nature of the MBMW processing pipeline.
+
+Our proposed framework integrates three key techniques.
+Firstly, real-time tracking of memory allocations within each process, covering both GPU and CPU usage, provides granular insights into the specific resource demands of individual components.
+This enables precise resource management. 
+The second technique involves aggregating the tracked memory allocations based on insights from individual processes.
+This holistic approach offers a comprehensive view of global resource usage, facilitating the establishment of globally tracked limitations.
+This strategy enhances the adaptability of resource management across the entire MBMW processing pipeline, contributing to overall system stability.
+With this, offloading tasks to the GPU devices are controlled by memory occupation and allow optimal hardware utilization.  
+The third technique focuses on the dynamic employment of down-scaling mechanisms in response to exceeded limitations.
+This proactive approach effectively eliminates the risk of Out-of-Memory situations, ensuring continuous operation by adapting to resource limitations in real time.
+This adaptive response mechanism significantly contributes to improving the stability of the MBMW processing pipeline.
+
+Looking forward, our approach holds the potential for further enhancement to incorporate additional resource metrics beyond CPU and GPU memory. 
+Metrics that may prove relevant for HPC applications include CPU utilization, the number of concurrent threads and processes, the number of open file descriptors, and domain-specific metrics such as the count of input polygons for the MBMW processing pipeline.
+
+Validation efforts encompass comprehensive experiments using real-world scenarios on an HPC cluster.
+The results highlight a substantial improvement in the system's ability to cater to changing computational demands.
+This enhancement, demonstrated through improved stability and availability, is quantitatively measured by the system's 99~\% up-time.
+This metric ensures a reliable assessment of the proposed approach.
+
+% ============================================================== %
+\vspace{4ex}
+% -------------------------------------------------------------- %
+{\bf{References}}
+\begin{reflist}
+  \item [{[1]}] Christof Klein and Elmar Platzgummer. Mbmw-101: World’s 1st high-throughput multi-beam mask writer. Photomask Technology 2016, \textbf{9985}, 998505 (2016).
+  \item [{[2]}] Kyungsup Shin, Harald Höller-Lugmayr et. al. New multi-beam mask data preparation method for EUV high volume data. XXIX Symposium on Photomask and Next-Generation Lithography Mask Technology \textbf{12915}, 116-125 (2023).
+\end{reflist}
+\end{document}
+
